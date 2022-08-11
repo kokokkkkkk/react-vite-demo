@@ -1,28 +1,26 @@
-import loadable from "@loadable/component"
+import loadable from '@loadable/component'
 import {
-  UploadOutlined,
-  UserOutlined,
-  VideoCameraOutlined,
-} from "@ant-design/icons";
+  UserOutlined
+} from '@ant-design/icons'
 const Layout = loadable(() => import('@/layout'))
+const Login = loadable(() => import('@/pages/login'))
 const Dashboard = loadable(() => import('@/pages/dashboard'))
 
 const Experience = loadable(() => import('@/pages/content/experience'))
 
-const Slideshow = loadable(() => import('@/pages/HomeCofig/slideshow'))
-// 有权限
+const Slideshow = loadable(() => import('@/pages/homeCofig/slideshow'))
 
+// 有权限
 export const asyncRoutes = [
   {
-    key: 2,
+    key: 3,
     label: '工作台',
     icon: <UserOutlined />,
     path: '/dashboard',
     element: <Dashboard />
-  }
-  ,
+  },
   {
-    key: 3,
+    key: 4,
     label: '首页配置',
     children: [
       {
@@ -30,12 +28,12 @@ export const asyncRoutes = [
         label: '轮播图配置',
         icon: <UserOutlined />,
         path: '/homecofig/slideshow',
-        element: <Slideshow />,
+        element: <Slideshow />
       }
     ]
   },
   {
-    key: 4,
+    key: 5,
     label: '内容管理',
     roles: ['admin'],
     children: [
@@ -44,23 +42,28 @@ export const asyncRoutes = [
         label: '经验管理',
         icon: <UserOutlined />,
         path: '/content/experience',
-        element: <Experience />,
+        element: <Experience />
       }
-    ],
+    ]
   },
   {
     path: '*',
-    hidden: true,  // 不放在Menu上
-    element: <h1>页面走丢了！！</h1>,
+    hidden: true, // 不放在Menu上
+    element: <h1>页面走丢了！！</h1>
   }
 ]
 
 // 无权限
 export const constantRoutes = [
-   {
+  {
     key: 1,
     path: '/',
     element: <Layout />,
-    children: []  // 权限待实现
+    children: [] // 权限待实现
   },
+  {
+    key: 2,
+    path: '/login',
+    element: <Login />
+  }
 ]

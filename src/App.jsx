@@ -1,8 +1,8 @@
-import { BrowserRouter,HashRouter } from 'react-router-dom'
+import { BrowserRouter } from 'react-router-dom'
 
 import 'antd/dist/antd.css'
 
-import  Permission  from './Permission'
+import Permission from './Permission'
 function App () {
   return (
     <BrowserRouter>

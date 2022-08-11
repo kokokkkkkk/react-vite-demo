@@ -1,11 +1,10 @@
-import React from "react"
-
+import React from 'react'
+import PropTypes from 'prop-types'
 const RoutesContext = React.createContext('routes')
 const { Provider, Consumer } = RoutesContext
 
 const RoutesPovider = (props) => {
   const { routes, children } = props
-  console.log(routes, 'props----routes');
   return (
     <Provider value={routes}>
       {children}
@@ -22,5 +21,20 @@ const RoutesConsuner = props => {
         {children}
     </Consumer>
   )
+}
+
+RoutesPovider.propTypes = {
+  routes: PropTypes.array,
+  children: PropTypes.oneOfType([PropTypes.object, PropTypes.array])
+}
+RoutesConsuner.propTypes = {
+  children: PropTypes.array
+}
+RoutesConsuner.defaultProps = {
+  children: []
+}
+RoutesPovider.defaultProps = {
+  children: [null],
+  routes: []
 }
 export { RoutesContext, RoutesPovider, RoutesConsuner }

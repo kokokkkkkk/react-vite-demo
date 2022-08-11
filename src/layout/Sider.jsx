@@ -1,28 +1,24 @@
-import React, { useState } from 'react';
+
 import { Link } from 'react-router-dom'
-import { Menu } from "antd";
-import {
-  UploadOutlined,
-  UserOutlined,
-  VideoCameraOutlined,
-} from "@ant-design/icons";
+import { Menu } from 'antd'
 
-import {useMenu} from '@/hooks'
-import { useContext } from 'react';
-import { RoutesContext } from '../utils/context';
+import { useMenu } from '@/hooks'
+import React, { useContext } from 'react'
+import { RoutesContext } from '../utils/context'
 
-function getItem(label, key, icon, children, type) {
+function getItem (label, key, icon, children, type) {
   return {
     key,
     icon,
     children,
     label,
-    type,
-  };
+    type
+  }
 }
 
 function createItems (routes) {
-  const result = routes.map(ele => {
+  // eslint-disable-next-line array-callback-return
+  const result = routes.map((ele) => {
     if (ele.path) {
       if (!ele.hidden) {
         return getItem(
@@ -31,7 +27,6 @@ function createItems (routes) {
         )
       }
     } else {
-      console.log(1111);
       return getItem(
         ele.label,
         ele.key, ele.icon, createItems(ele.children))

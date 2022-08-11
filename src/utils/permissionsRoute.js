@@ -1,7 +1,7 @@
 
 // roles是用户信息中的角色数组
 // route每一个路由规则
-function hasPermission(roles, route) {
+function hasPermission (roles, route) {
   if (route.roles) {
     return roles.some(role => route.roles.includes(role))
   } else {
@@ -11,8 +11,8 @@ function hasPermission(roles, route) {
 
 // routes也就是我们将要过滤的asyncRoutes
 // roles用户信息中的角色数组
-function filterAsyncRoutes(routes, roles) {
-  const res = []  // 放置有权访问的路由规则
+function filterAsyncRoutes (routes, roles) {
+  const res = [] // 放置有权访问的路由规则
 
   routes.forEach(route => {
     const tmp = { ...route } // tmp就是一条具体的路由规则
@@ -28,8 +28,8 @@ function filterAsyncRoutes(routes, roles) {
 }
 
 // 用于生成当前用户有权访问的路由规则们
-export function generateRoutes(asyncRoutes, roles) {
+export function generateRoutes (asyncRoutes, roles) {
   const accessRoutes = filterAsyncRoutes(asyncRoutes, roles)
-  console.log(accessRoutes);
+  console.log(accessRoutes)
   return accessRoutes
 }

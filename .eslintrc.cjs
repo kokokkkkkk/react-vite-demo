@@ -19,6 +19,5 @@ module.exports = {
     'react'
   ],
   rules: {
-    'semi': true
   }
 }
