@@ -1,0 +1,80 @@
+html,body,#root{
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+#root >.App,.ant-layout{
+  width: 100%;
+  height: 100%;
+}
+.header{
+  color: white;
+
+  // 修改面包屑的样式
+  .ant-breadcrumb li,
+  .ant-breadcrumb li:last-child {
+    color: white;
+    display: inline-block;
+    line-height: 64px;
+    cursor: pointer;
+  }
+  .ant-breadcrumb li:hover {
+    color: #cccccc;
+  }
+  .ant-breadcrumb-separator {
+    color: white;
+  }
+
+  .toggle {
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    padding-left: 20px;
+    display: inline-block;
+  }
+  .icons {
+    &>.anticon {
+      margin-right: 20px;
+      font-size: 20px;
+      cursor: pointer;
+    }
+  }
+ 
+}
+
+// .sider{
+  
+// }
+
+.ant-layout-content {
+  position: relative;
+}
+
+.content{
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  overflow: auto;
+  min-width: 1000px;
+  .setting{
+    width: 50px;
+    height: 50px;
+    // background-color: skyblue;
+    position: fixed;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    text-align: center;
+    line-height: 50px;
+    font-size: 23px;
+    color: aliceblue;
+    cursor: pointer;
+  }
+}
+
+
+
