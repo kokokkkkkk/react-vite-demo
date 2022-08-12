@@ -140,7 +140,7 @@ const Slideshow = () => {
       setIsDialog({ flag: true, type: true, id: id || '' });
     } else {
       setIsDialog({ flag: false, type: true, id: '' });
-      setTabcofing((state) => {
+      setSetTabcofing((state) => {
         return { ...state };
       });
     }
