@@ -1,6 +1,7 @@
 import { Button, Table, Image, message } from 'antd';
 import React, { useEffect, useMemo, useState } from 'react';
 import axios from '@/api';
+import { useNavigate } from 'react-router-dom';
 
 // createTime: "2022-08-11 20:32:24"
 // createUser: 0
@@ -20,6 +21,7 @@ import axios from '@/api';
 // updateUser: 0
 
 const Good = () => {
+  const navigate = useNavigate();
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const [tableList, setTableList] = useState({ list: [], totalCount: 0 });
   const [setTabcofing, setSetTabcofing] = useState({
@@ -126,7 +128,9 @@ const Good = () => {
         render: (_, row) => {
           return (
             <div>
-              <Button type="link">修改</Button>
+              <Button type="link" onClick={() => pushAdd(row.goodsId)}>
+                修改
+              </Button>
               {row.goodsSellStatus === 0 ? (
                 <Button type="link" onClick={() => handleStatus(row.goodsId, 1)}>
                   {' '}
@@ -167,6 +171,13 @@ const Good = () => {
   // 当前选中行
   const onSelectChange = (newSelectedRowKeys) => {
     setSelectedRowKeys(newSelectedRowKeys);
+  };
+
+  // 修改
+  const pushAdd = (id) => {
+    console.log(id);
+    console.log(navigate);
+    navigate('/module/goodadd?id=' + id, { replace: true });
   };
 
   // 上下架
