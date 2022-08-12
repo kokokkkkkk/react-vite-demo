@@ -1,43 +1,37 @@
+import { Link } from 'react-router-dom';
+import { Menu } from 'antd';
 
-import { Link } from 'react-router-dom'
-import { Menu } from 'antd'
+import { useMenu } from '@/hooks';
+import React, { useContext } from 'react';
+import { RoutesContext } from '../utils/context';
 
-import { useMenu } from '@/hooks'
-import React, { useContext } from 'react'
-import { RoutesContext } from '../utils/context'
-
-function getItem (label, key, icon, children, type) {
+function getItem(label, key, icon, children, type) {
   return {
     key,
     icon,
     children,
     label,
     type
-  }
+  };
 }
 
-function createItems (routes) {
+function createItems(routes) {
   // eslint-disable-next-line array-callback-return
   const result = routes.map((ele) => {
     if (ele.path) {
       if (!ele.hidden) {
-        return getItem(
-          <Link to={ele.path}>{ ele.label }</Link>
-          , ele.key, ele.icon
-        )
+        return getItem(<Link to={ele.path}>{ele.label}</Link>, ele.key, ele.icon);
       }
     } else {
-      return getItem(
-        ele.label,
-        ele.key, ele.icon, createItems(ele.children))
+      return getItem(ele.label, ele.key, ele.icon, createItems(ele.children));
     }
-  })
-  return result
-};
+  });
+  return result;
+}
 
 const Sider = (props) => {
-  const [selectedKey, openKey] = useMenu()
-  const routes = useContext(RoutesContext)
+  const [selectedKey, openKey] = useMenu();
+  const routes = useContext(RoutesContext);
   return (
     <div className="sider">
       <Menu
@@ -48,7 +42,7 @@ const Sider = (props) => {
         items={createItems(routes)}
       />
     </div>
-  )
-}
+  );
+};
 
-export default React.memo(Sider)
+export default React.memo(Sider);

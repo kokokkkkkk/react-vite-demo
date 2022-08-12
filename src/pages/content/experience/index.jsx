@@ -2,7 +2,7 @@
 const Experience = (props) => {
   return (
     <div>
-      wunu
+      经验管理
     </div>
   )
 }
