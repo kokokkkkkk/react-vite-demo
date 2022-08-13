@@ -1,4 +1,4 @@
-基于，React18、Antd4，react-router-dom6及相关技术栈开发
+基于，React18、Antd4、react-router-dom6、Vite及相关技术栈开发
 
 ## 初始化
 ```bash
