@@ -11,7 +11,8 @@ const Slideshow = loadable(() => import('@/pages/homeCofig/slideshow'));
 
 const Good = loadable(() => import('@/pages/module/good'));
 const GoodAdd = loadable(() => import('@/pages/module/goodAdd'));
-
+const Order = loadable(() => import('@/pages/module/order'))
+const OrderDetail = loadable(() => import('@/pages/module/orderDetail'))
 // 有权限
 export const asyncRoutes = [
   {
@@ -65,6 +66,21 @@ export const asyncRoutes = [
         icon: <UserOutlined />,
         path: '/module/goodadd',
         element: <GoodAdd />
+      },
+      {
+        key: 604,
+        label: '订单管理',
+        icon: <UserOutlined />,
+        path: '/module/order',
+        element: <Order />
+      },
+      {
+        key: 605,
+        label: '订单详情',
+        icon: <UserOutlined />,
+        hidden: true,   // 不放在Menu上
+        path: '/module/orderdetail/:id', // 动态路由
+        element: <OrderDetail />
       }
     ]
   },

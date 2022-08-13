@@ -15,13 +15,17 @@ const DialogAddCategory = (props) => {
   };
   useEffect(() => {
     const getDetail = async () => {
-      if (dialog.id) {
-        await axios.get(`/carousels/${dialog.id}`).then((res) => {
+      try {
+        if (dialog.id) {
+          const res = await axios.get(`/carousels/${dialog.id}`);
+          if ((!res.carouselUrl, !res.redirectUrl, !res.carouselRank)) {
+            throw res;
+          }
           const { carouselUrl, redirectUrl, carouselRank } = res;
-          form.setFieldValue('carouselUrl', carouselUrl);
-          form.setFieldValue('redirectUrl', redirectUrl);
-          form.setFieldValue('carouselRank', carouselRank);
-        });
+          form.setFieldsValue({ carouselUrl, redirectUrl, carouselRank });
+        }
+      } catch (e) {
+        console.log(e);
       }
     };
     getDetail();
@@ -33,10 +37,10 @@ const DialogAddCategory = (props) => {
 
   // 确定
   const handleOk = () => {
-    const fetch = async () => {
+    const fetch = () => {
       const formData = form.getFieldsValue();
       if (dialog.type) {
-        await axios
+        axios
           .post('/carousels', {
             ...formData
           })
@@ -46,7 +50,7 @@ const DialogAddCategory = (props) => {
             onAdd();
           });
       } else {
-        await axios
+        axios
           .put('/carousels', {
             carouselId: dialog.id,
             ...formData

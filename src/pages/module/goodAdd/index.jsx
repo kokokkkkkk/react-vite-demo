@@ -33,25 +33,30 @@ const GoodAdd = () => {
   const wangeditor = useRef(null);
 
   const fetchOptions = async (level = 1, id) => {
-    await axios
-      .get('/categories', {
+    try {
+      let res = await axios.get('/categories', {
         params: {
           pageNumber: 1,
           pageSize: 10,
           categoryLevel: level,
           parentId: 0
         }
-      })
-      .then((res) => {
-        const { list } = res;
-        const option = list.map((item) => ({
-          value: item.categoryId,
-          label: item.categoryName,
-          isLeaf: false,
-          current: 1
-        }));
-        setOptions(option);
       });
+      if (!res.list) {
+        throw res;
+      }
+      console.log('2----2');
+      const { list } = res;
+      const option = list.map((item) => ({
+        value: item.categoryId,
+        label: item.categoryName,
+        isLeaf: false,
+        current: 1
+      }));
+      setOptions(option);
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   useEffect(() => {
@@ -91,7 +96,9 @@ const GoodAdd = () => {
   }, []);
 
   useEffect(() => {
+    console.log(1, '1---');
     fetchOptions();
+    console.log(3, '3---');
     if (id) {
       axios.get(`/goods/${search.get('id')}`).then((res) => {
         const { goods, firstCategory, secondCategory, thirdCategory } = res;
@@ -128,43 +135,39 @@ const GoodAdd = () => {
     const targetOption = selectedOptions[selectedOptions.length - 1];
     const { current, value } = targetOption;
     targetOption.loading = true; // load options lazily
-    const fetch = async () => {
-      await axios
-        .get('/categories', {
-          params: {
-            pageNumber: 1,
-            pageSize: 1000,
-            categoryLevel: current + 1,
-            parentId: value
-          }
-        })
-        .then((res) => {
-          targetOption.loading = false;
-          const { list } = res;
-          if (!list.length) {
-            targetOption.disabled = true;
-          }
-          const children = list.map((item) => ({
-            value: item.categoryId,
-            label: item.categoryName,
-            isLeaf: current > 1,
-            current: current + 1
-          }));
-          targetOption.children = children;
-          setOptions([...options]);
-        });
-    };
-    fetch();
+    axios
+      .get('/categories', {
+        params: {
+          pageNumber: 1,
+          pageSize: 1000,
+          categoryLevel: current + 1,
+          parentId: value
+        }
+      })
+      .then((res) => {
+        targetOption.loading = false;
+        const { list } = res;
+        if (!list.length) {
+          targetOption.disabled = true;
+        }
+        const children = list.map((item) => ({
+          value: item.categoryId,
+          label: item.categoryName,
+          isLeaf: current > 1,
+          current: current + 1
+        }));
+        targetOption.children = children;
+        setOptions([...options]);
+      });
   };
 
-  const submit = () => {
-    // const { goodsCoverImg, goodsIntro, goodsName,goodsSellStatus,originalPrice,sellingPrice,stockNum,tag} = form.getFieldValue()
-    const formData = form.getFieldValue();
+  const onFinish = (values) => {
+    console.log(values);
     let httpOption = axios.post;
     let params = {
       goodsCategoryId: current,
       goodsDetailContent: wangeditor.current.txt.html(),
-      ...formData
+      ...values
     };
     if (
       hasEmoji(params.goodsIntro) ||
@@ -200,7 +203,7 @@ const GoodAdd = () => {
     });
   };
   return (
-    <div className="goodAdd">
+    <div className="goodAdd" style={{ backgroundColor: '#fff', padding: '20px' }}>
       <Form
         form={form}
         labelCol={{
@@ -209,6 +212,7 @@ const GoodAdd = () => {
         wrapperCol={{
           span: 19
         }}
+        onFinish={onFinish}
         initialValues={{ ...defaultFormData }}>
         <Form.Item label="商品分类" name="current" rules={[{ required: true, message: '商品分类必填选项!' }]}>
           <Cascader options={options} loadData={loadData} onChange={onChange} style={styleWidth} />
@@ -243,8 +247,10 @@ const GoodAdd = () => {
         <Form.Item label="详情内容" rules={[{ required: true, message: '详情内容必填!' }]}>
           <div ref={editor}></div>
         </Form.Item>
-        <Form.Item>
-          <Button onClick={() => submit()}>{id ? '立即修改' : '立即提交'}</Button>
+        <Form.Item wrapperCol={{ offset: 4 }}>
+          <Button type="primary" htmlType="submit">
+            {id ? '立即修改' : '立即提交'}
+          </Button>
         </Form.Item>
       </Form>
     </div>
