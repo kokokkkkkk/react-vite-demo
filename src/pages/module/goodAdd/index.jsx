@@ -207,10 +207,10 @@ const GoodAdd = () => {
       <Form
         form={form}
         labelCol={{
-          span: 4
+          span: 3
         }}
         wrapperCol={{
-          span: 19
+          span: 21
         }}
         onFinish={onFinish}
         initialValues={{ ...defaultFormData }}>
@@ -247,7 +247,7 @@ const GoodAdd = () => {
         <Form.Item label="详情内容" rules={[{ required: true, message: '详情内容必填!' }]}>
           <div ref={editor}></div>
         </Form.Item>
-        <Form.Item wrapperCol={{ offset: 4 }}>
+        <Form.Item wrapperCol={{ offset: 3 }}>
           <Button type="primary" htmlType="submit">
             {id ? '立即修改' : '立即提交'}
           </Button>

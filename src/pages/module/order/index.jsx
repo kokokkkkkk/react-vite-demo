@@ -255,7 +255,7 @@ const Order = () => {
   };
 
   return (
-    <div className="order" style={{ padding: '20px', backgroundColor: '#fff' }}>
+    <div className="order">
       <Table
         rowKey="orderId"
         rowSelection={rowSelection}
