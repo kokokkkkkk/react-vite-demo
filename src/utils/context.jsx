@@ -4,8 +4,9 @@ const RoutesContext = React.createContext('routes');
 const { Provider, Consumer } = RoutesContext;
 
 const RoutesPovider = (props) => {
-  const { routes, children } = props;
-  return <Provider value={routes}>{children}</Provider>;
+  const { routes, langCurrent, onSetLange ,children } = props;
+  console.log('povider' , props);
+  return <Provider value={{routes,langCurrent,onSetLange}}>{children}</Provider>;
 };
 const RoutesConsuner = (props) => {
   const { children } = props;

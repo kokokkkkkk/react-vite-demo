@@ -1,21 +1,61 @@
 import { useNavigate } from 'react-router-dom';
+import { useEffect, useState, useContext } from 'react';
 import PropTypes from 'prop-types';
 import { Row, Col, Dropdown, Menu, Breadcrumb } from 'antd';
-import { MenuUnfoldOutlined, MenuFoldOutlined, FullscreenOutlined } from '@ant-design/icons';
+import {
+  MenuUnfoldOutlined,
+  MenuFoldOutlined,
+  TranslationOutlined,
+  FullscreenOutlined,
+  UserOutlined,
+  FullscreenExitOutlined
+} from '@ant-design/icons';
 import { useBreadcrumb } from '@/hooks';
+import { RoutesContext } from '../utils/context';
+import { locaRemove, localGet, localSet } from '@/utils';
+import screenfull from 'screenfull';
 
+const langs = [
+  {
+    key: 'zh',
+    label: '中文'
+  },
+  {
+    key: 'en',
+    label: 'English'
+  }
+];
+// onSetLange langCurrent
 const Header = (props) => {
   const { collapsed, onCollapsed } = props;
-  console.log(collapsed, 'collapsed');
-  console.log(onCollapsed, 'onCollapsed');
+  const [isScreenfull, setScreenfull] = useState(screenfull.isFullscreen);
+  const { langCurrent, onSetLange } = useContext(RoutesContext);
   const breads = useBreadcrumb();
-  console.log('header', breads);
   const navigate = useNavigate();
+
   const skipBreak = (ele) => {
     if (ele.path) {
       navigate(ele.path, { replace: true });
     }
   };
+
+  const onScreenfull = (ele) => {
+    if (screenfull.isEnabled) {
+      screenfull.toggle();
+      setScreenfull((state) => !state);
+    }
+  };
+
+  const onLang = (value) => {
+    onSetLange(value);
+    localSet('lang', value);
+  };
+
+  const userOut = () => {
+    locaRemove('token');
+    navigate('/login', { replace: true });
+  };
+
   return (
     <div className="header">
       <Row className="headerRow">
@@ -34,21 +74,54 @@ const Header = (props) => {
         </Col>
         <Col span={8} style={{ textAlign: 'right' }}>
           <div className="icons">
-            <FullscreenOutlined />
+            <span onClick={() => onScreenfull()}>
+              {!isScreenfull ? (
+                <FullscreenOutlined className="headerIcon" />
+              ) : (
+                <FullscreenExitOutlined className="headerIcon" />
+              )}
+            </span>
+            {/* style={ item.key===langCurrent?{backgroundColor:'var(--ant-primary-color)'}:{} }  */}
             <Dropdown
               overlay={
                 <Menu
-                  items={[
-                    {
-                      key: 'avatar',
-                      label: <div>退出登录</div>
-                    }
-                  ]}
+                  items={langs.map((item) => {
+                    return {
+                      key: item.key,
+                      label: (
+                        <div
+                          onClick={() => onLang(item.key)}
+                          key={item.key}
+                          style={item.key === langCurrent ? { backgroundColor: 'var(--ant-primary-color)' } : {}}>
+                          {item.label}
+                        </div>
+                      )
+                    };
+                  })}
                 />
               }
               placement="bottomRight"
-              arrow={{ pointAtCenter: true }}>
-              <div style={{ display: 'inline-block', cursor: 'pointer', paddingRight: '20px' }}></div>
+              arrow={{
+                pointAtCenter: true
+              }}>
+              <TranslationOutlined className="headerIcon" />
+            </Dropdown>
+            <Dropdown
+              overlay={
+                <Menu
+                  items={['退出'].map((item, index) => {
+                    return {
+                      key: index,
+                      label: <div onClick={userOut}>{item}</div>
+                    };
+                  })}
+                />
+              }
+              placement="bottomRight"
+              arrow={{
+                pointAtCenter: true
+              }}>
+              <UserOutlined className="headerIcon" />
             </Dropdown>
           </div>
         </Col>

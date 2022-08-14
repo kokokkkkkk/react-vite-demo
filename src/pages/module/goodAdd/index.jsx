@@ -45,7 +45,6 @@ const GoodAdd = () => {
       if (!res.list) {
         throw res;
       }
-      console.log('2----2');
       const { list } = res;
       const option = list.map((item) => ({
         value: item.categoryId,
@@ -89,16 +88,13 @@ const GoodAdd = () => {
       }
     });
     wangeditor.current.create();
-    console.log(wangeditor);
     return () => {
       wangeditor.current = null;
     };
   }, []);
 
   useEffect(() => {
-    console.log(1, '1---');
     fetchOptions();
-    console.log(3, '3---');
     if (id) {
       axios.get(`/goods/${search.get('id')}`).then((res) => {
         const { goods, firstCategory, secondCategory, thirdCategory } = res;

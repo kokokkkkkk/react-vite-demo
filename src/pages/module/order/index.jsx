@@ -1,4 +1,4 @@
-import { Button, Table, Input, Row, Col, Select, message} from 'antd';
+import { Button, Table, Input, Row, Col, Select, message } from 'antd';
 import { useEffect, useMemo, useState } from 'react';
 import axios from '@/api';
 import { useNavigate } from 'react-router-dom';
@@ -31,7 +31,7 @@ const payStatus = ['未支付', '微信支付', '支付宝支付'];
 // userId: 7
 
 const Order = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const [tabList, setTabList] = useState({ list: [], totalCount: 0 });
   const [setTabcofing, setSetTabcofing] = useState({
@@ -98,10 +98,24 @@ const Order = () => {
         render: (_, row) => {
           return (
             <div>
-              { row.orderStatus == 1 &&  <Button type="link" onClick={() => handleConfig(row.orderId)}>配货完成</Button>}
-              { row.orderStatus == 2 &&  <Button type="link" onClick={() => handleSend(row.orderId)}>出库</Button>}
-              { row.orderStatus !== 4 && row.orderStatus >= 0 && <Button type="link" onClick={() => handleClose(row.orderId)}>关闭订单</Button>}
-              <Button type="link" onClick={() => pushDetail(row.orderId)}>订单详情</Button>
+              {row.orderStatus == 1 && (
+                <Button type="link" onClick={() => handleConfig(row.orderId)}>
+                  配货完成
+                </Button>
+              )}
+              {row.orderStatus == 2 && (
+                <Button type="link" onClick={() => handleSend(row.orderId)}>
+                  出库
+                </Button>
+              )}
+              {row.orderStatus !== 4 && row.orderStatus >= 0 && (
+                <Button type="link" onClick={() => handleClose(row.orderId)}>
+                  关闭订单
+                </Button>
+              )}
+              <Button type="link" onClick={() => pushDetail(row.orderId)}>
+                订单详情
+              </Button>
             </div>
           );
         }
@@ -142,8 +156,12 @@ const Order = () => {
           </Col>
           <Col span={5}>
             <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-              <Button type="primary" onClick={() => handleConfig()}>配货完成</Button>
-              <Button type="primary" onClick={() => handleSend()}>出库</Button>
+              <Button type="primary" onClick={() => handleConfig()}>
+                配货完成
+              </Button>
+              <Button type="primary" onClick={() => handleSend()}>
+                出库
+              </Button>
               <Button onClick={() => handleClose()}>关闭订单</Button>
             </div>
           </Col>
@@ -156,92 +174,102 @@ const Order = () => {
   const handleConfig = (id) => {
     let params = null;
     if (id) {
-      params = [id]
+      params = [id];
     } else {
       if (!selectedRowKeys.length) {
-        console.log('state.selectedRowKeys', selectedRowKeys.length)
-        message.error('请选择项')
-        return
+        console.log('state.selectedRowKeys', selectedRowKeys.length);
+        message.error('请选择项');
+        return;
       }
-      params = selectedRowKeys
+      params = selectedRowKeys;
     }
-    axios.put('/orders/checkDone', {
-      ids: params
-    }).then(() => {
-      setSelectedRowKeys([])
-      setSetTabcofing(state => {return {...state}})
-      message.success('配货成功')
-    })
-  }
+    axios
+      .put('/orders/checkDone', {
+        ids: params
+      })
+      .then(() => {
+        setSelectedRowKeys([]);
+        setSetTabcofing((state) => {
+          return { ...state };
+        });
+        message.success('配货成功');
+      });
+  };
 
   // 出库
   const handleSend = (id) => {
     let params = null;
     if (id) {
-      params = [id]
+      params = [id];
     } else {
       if (!selectedRowKeys.length) {
-        console.log('state.selectedRowKeys', selectedRowKeys.length)
-        message.error('请选择项')
-        return
+        console.log('state.selectedRowKeys', selectedRowKeys.length);
+        message.error('请选择项');
+        return;
       }
-      params = selectedRowKeys
+      params = selectedRowKeys;
     }
-    axios.put('/orders/checkOut', {
-      ids: params
-    }).then(() => {
-      setSelectedRowKeys([])
-      setSetTabcofing(state => {return {...state}})
-      message.success('出库成功')
-    })
-  }
+    axios
+      .put('/orders/checkOut', {
+        ids: params
+      })
+      .then(() => {
+        setSelectedRowKeys([]);
+        setSetTabcofing((state) => {
+          return { ...state };
+        });
+        message.success('出库成功');
+      });
+  };
 
   // 关闭订单
   const handleClose = (id) => {
     let params = null;
     if (id) {
-      params = [id]
+      params = [id];
     } else {
       if (!selectedRowKeys.length) {
-        console.log('state.selectedRowKeys', selectedRowKeys.length)
-        message.error('请选择项')
-        return
+        console.log('state.selectedRowKeys', selectedRowKeys.length);
+        message.error('请选择项');
+        return;
       }
-      params = selectedRowKeys
+      params = selectedRowKeys;
     }
-    axios.put('/orders/close', {
-      ids: params
-    }).then(() => {
-      setSelectedRowKeys([])
-      setSetTabcofing(state => {return {...state}})
-      message.success('关闭成功')
-    })
-  }
+    axios
+      .put('/orders/close', {
+        ids: params
+      })
+      .then(() => {
+        setSelectedRowKeys([]);
+        setSetTabcofing((state) => {
+          return { ...state };
+        });
+        message.success('关闭成功');
+      });
+  };
 
   const pushDetail = (id) => {
     console.log(id);
-    navigate('/module/orderdetail/'+id)
-  }
+    navigate('/module/orderdetail/' + id);
+  };
 
   // 分页器
   const paginationChange = (pageNumber, pageSize) => {
     if (pageSize === setTabcofing.pageSize) {
-      setSetTabcofing(state => {
-        return {...state,pageNumber,
-          pageSize}
-      })
+      setSetTabcofing((state) => {
+        return { ...state, pageNumber, pageSize };
+      });
     } else {
-      setSetTabcofing(state => {
-        return {...state,pageNumber: 1,
-          pageSize}
-      })
+      setSetTabcofing((state) => {
+        return { ...state, pageNumber: 1, pageSize };
+      });
     }
   };
 
   const handleChange = (value) => {
     setSetTabcofing((state) => {
-      return {...state,orderStatus:value,pageNumber:1}
-    })
+      return { ...state, orderStatus: value, pageNumber: 1 };
+    });
   };
 
   const onSelectChange = (newSelectedRowKeys) => {

@@ -33,23 +33,22 @@ const Good = () => {
   useEffect(() => {
     const fetchGood = async () => {
       setLoading((state) => !state);
-    try {
-      const res =  await axios
-        .get('/goods/list', {
+      try {
+        const res = await axios.get('/goods/list', {
           params: {
             ...setTabcofing
           }
-        })
-      if (!res.list) {
-        throw res
+        });
+        if (!res.list) {
+          throw res;
+        }
+        const { list, totalCount } = res;
+        setTableList({ list, totalCount });
+        setLoading((state) => !state);
+        console.log(res);
+      } catch (e) {
+        console.log(e);
       }
-      const { list, totalCount } = res;
-      setTableList({ list, totalCount });
-      setLoading((state) => !state);
-      console.log(res);
-    } catch (e) {
-      console.log(e);
-    }
     };
     fetchGood();
   }, [setTabcofing]);
@@ -156,7 +155,11 @@ const Good = () => {
 
   // 表头
   const randerHader = () => {
-    return <Button type="primary" onClick={() => pushAdd()}>添加商品</Button>;
+    return (
+      <Button type="primary" onClick={() => pushAdd()}>
+        添加商品
+      </Button>
+    );
   };
   // 分页器
   const paginationChange = (pageNumber, pageSize) => {
@@ -185,7 +188,7 @@ const Good = () => {
     if (id) {
       navigate('/module/goodadd?id=' + id, { replace: true });
     } else {
-      navigate('/module/goodadd')
+      navigate('/module/goodadd');
     }
   };
 

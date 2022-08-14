@@ -1,9 +1,10 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Menu } from 'antd';
 
 import { useMenu } from '@/hooks';
 import React, { useContext } from 'react';
 import { RoutesContext } from '../utils/context';
+import {} from 'react-router-dom';
 
 function getItem(label, key, icon, children, type) {
   return {
@@ -30,10 +31,22 @@ function createItems(routes) {
 }
 
 const Sider = (props) => {
+  const { collapsed } = props;
   const [selectedKey, openKey] = useMenu();
-  const routes = useContext(RoutesContext);
+  const { routes } = useContext(RoutesContext);
   return (
     <div className="sider">
+      <div className="log">
+        <h1 style={{ color: '#fff', margin: '0', height: '60px', lineHeight: '60px' }}>
+          <Link to="/dashboard">
+            <img
+              src="https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg"
+              style={{ width: '28px', marginRight: '12px', marginLeft: collapsed ? '20px' : '' }}
+            />
+            <span style={{ display: collapsed ? 'none' : '' }}>Ant Design</span>
+          </Link>
+        </h1>
+      </div>
       <Menu
         theme="dark"
         mode="inline"
