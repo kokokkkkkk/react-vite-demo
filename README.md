@@ -1,5 +1,8 @@
 基于，React18、Antd4、react-router-dom6、Vite及相关技术栈开发
 
+账号 admin
+密码 123456
+
 ## 初始化
 ```bash
 # 安装依赖
